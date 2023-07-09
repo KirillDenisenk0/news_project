@@ -1,6 +1,7 @@
 package myProject.web.util;
 
 import lombok.experimental.UtilityClass;
+import myProject.web.model.User;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,9 +24,6 @@ public class ConnectionManager {
     private void loadDriver() throws ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
     }
-
-
-
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
