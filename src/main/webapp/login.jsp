@@ -1,3 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <html>
 <head>
     <title>Login page</title>
@@ -14,12 +17,15 @@
 
         <button type="submit" style="color: cornflowerblue">Войти</button>
 
-        <a href="${pageContext.request.contextPath}/registration">
+        <a href="http://localhost:8080/myProjectNewss/registration">
             <button type="button">Регистрация</button>
         </a>
     </form>
 
-<a href="${pageContext.request.contextPath}/news"> Войти без авторизации</a>
+<a href="http://localhost:8080/myProjectNewss/news"> Войти без авторизации</a>
 
+<c:if test="${param.error != null}" >
+    <span style="color: red">Your email or Password is not correct</span>
+</c:if>
 </body>
 </html>

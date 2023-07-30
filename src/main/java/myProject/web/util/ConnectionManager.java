@@ -32,5 +32,4 @@ public class ConnectionManager {
                 PropertiesUtil.getByKey(PASSWORD_PATH)
         );
     }
-
 }

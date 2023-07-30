@@ -7,9 +7,9 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class News {
-    private Long id;
+    private Integer id;
     private String name;
     private LocalDate createDate;
     private String text;
-    private Long authorId;
+    private Integer authorId;
 }

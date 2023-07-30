@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class User {
-    private Long id;
+    private Integer id;
     private String name;
     private LocalDate birthday;
     private String country;
@@ -19,7 +19,6 @@ public class User {
     private String password;
     private Boolean isBanned;
     private LocalDateTime banDate;
-    private LocalDateTime turnOffBanDate;
     private Boolean notice;
     private Role role;
     private Gender gender;

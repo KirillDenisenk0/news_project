@@ -6,10 +6,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import myProject.dto.NewUserDto;
+import myProject.exeception.DuplicateException;
+import myProject.exeception.ValidationException;
 import myProject.web.service.UserService;
 import myProject.web.util.JspHelp;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
@@ -34,7 +37,12 @@ public class RegistrationServlet extends HttpServlet {
             userService.save(newUserDto);
             resp.sendRedirect("/login");
         }
-        catch (ValidationException exception){
+        catch (ValidationException e ) {
+            req.setAttribute("errors",e.getErrorList());
+            req.getRequestDispatcher(JspHelp.getPath("registration")).forward(req,resp);
+        }
+        catch (DuplicateException | SQLException e){
+            req.setAttribute("duplicate",e);
             req.getRequestDispatcher(JspHelp.getPath("registration")).forward(req,resp);
         }
     }

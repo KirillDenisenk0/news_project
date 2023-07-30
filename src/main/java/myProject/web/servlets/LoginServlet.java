@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import myProject.web.model.User;
 import myProject.web.service.UserService;
+import myProject.web.util.JspHelp;
+
 import java.io.IOException;
 import java.util.Optional;
 
@@ -18,7 +20,7 @@ public class LoginServlet extends HttpServlet {
     private final UserService userService = UserService.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/login.jsp").forward(req,resp);
+        req.getRequestDispatcher(JspHelp.getPath("login")).forward(req,resp);
     }
 
     @Override
@@ -37,12 +39,12 @@ public class LoginServlet extends HttpServlet {
     @SneakyThrows
     private void onLoginFailed(HttpServletRequest req, HttpServletResponse resp) {
         resp.setStatus(401);
-        resp.sendRedirect("/login");
+        resp.sendRedirect("http://localhost:8080/myProjectNewss/login");
     }
 
     @SneakyThrows
     private void onLoginSuccess(User user, HttpServletRequest req, HttpServletResponse resp)  {
         req.getSession().setAttribute("user",user);
-        resp.sendRedirect("/news");
+        resp.sendRedirect("http://localhost:8080/myProjectNewss/news");
     }
 }
