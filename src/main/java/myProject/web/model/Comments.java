@@ -1,8 +1,12 @@
 package myProject.web.model;
 
+import jakarta.servlet.annotation.WebInitParam;
+import lombok.Builder;
+
+@Builder
 public class Comments {
     private Integer id;
     private String text;
-    private Long authorId;
-    private Long newsId;
+    private Integer authorId;
+    private Integer newsId;
 }

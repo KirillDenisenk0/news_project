@@ -1,9 +1,12 @@
 package myProject.validator;
 
+import myProject.dto.CommentsDto;
 import myProject.dto.NewsDto;
 
-public interface ValidatorForPublication<R> {
-    //R isValidComment(CommentsDto commentsDto);
+import java.io.IOException;
 
-    R isValidNews(NewsDto newsDto);
+public interface ValidatorForPublication<R> {
+    R isValidComment(CommentsDto commentsDto);
+
+    R isValidNews(NewsDto newsDto) throws IOException;
 }
