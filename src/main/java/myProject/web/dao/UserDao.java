@@ -19,6 +19,10 @@ public class UserDao implements Dao<Integer, User> {
 
     private static final String GET_USER_STATUS = "select isbanned from users where id = ?";
 
+    private static final String SET_TURN_OFF_BAN_DATE = "update users set turn_off_ban_date = ? where id = ?";
+
+    private static final String GET_BAN_DATE = "select ban_date from users where id = ?";
+
     private static final String GET_TURN_OFF_BAN = "select turn_off_ban_date from users where id = ?";
     private static final UserDao INSTANCE = new UserDao();
 
@@ -26,7 +30,7 @@ public class UserDao implements Dao<Integer, User> {
     public static final String SET_NOTICE = "update users set notice = ? where id = ?";
 
     public static final String SET_IS_BANNED = "update users set isbanned = ? where id =?";
-    public static  final String SET_BAN_DATE = "update users set ban_date =? where id = ?";
+    public static  final String SET_BAN_DATE = "update users set ban_date = ? where id = ?";
 
     public static UserDao getInstance() {
         return INSTANCE;
@@ -74,6 +78,29 @@ public class UserDao implements Dao<Integer, User> {
                 return resultSet.getObject("isbanned", Boolean.class);
             }
             return false;
+        }
+    }
+
+    @SneakyThrows
+    public LocalDate getBanDate(Integer id) {
+        try (Connection connection = ConnectionManager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_BAN_DATE)) {
+            preparedStatement.setObject(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                return resultSet.getDate("ban_date").toLocalDate();
+            }
+            return null;
+        }
+    }
+
+    @SneakyThrows
+    public void setTurnOffBanDate(Integer id, LocalDateTime dateTime) {
+        try (Connection connection = ConnectionManager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SET_TURN_OFF_BAN_DATE)) {
+            preparedStatement.setObject(1,dateTime);
+            preparedStatement.setObject(2,id);
+            preparedStatement.executeUpdate();
         }
     }
 
@@ -167,7 +194,7 @@ public class UserDao implements Dao<Integer, User> {
              PreparedStatement preparedStatement = connection.prepareStatement(SET_BAN_DATE)) {
             preparedStatement.setObject(1, id);
             preparedStatement.setObject(2, now);
-            ResultSet resultSet = preparedStatement.executeQuery();
+             preparedStatement.executeUpdate();
         }
     }
 }

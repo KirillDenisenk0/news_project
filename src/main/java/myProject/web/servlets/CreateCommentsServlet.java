@@ -12,11 +12,12 @@ import myProject.web.model.User;
 import myProject.web.service.CommentService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/createComments")
 public class CreateCommentsServlet extends HttpServlet {
     private static final CreateCommentsServlet INSTANCE = new CreateCommentsServlet();
-    private final CommentService commentService = CommentsService.getInstance();
+    private final CommentService commentService = CommentService.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,7 +31,7 @@ public class CreateCommentsServlet extends HttpServlet {
         try {
             commentService.create(commentsDto);
         }
-        catch (BanException | CensorshipException e){
+        catch (BanException | CensorshipException | SQLException e){
             req.setAttribute("error",e);
         }
         req.setAttribute("newsId",commentsDto.getNewsId());

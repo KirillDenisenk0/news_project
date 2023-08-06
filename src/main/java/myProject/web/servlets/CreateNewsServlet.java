@@ -13,6 +13,7 @@ import myProject.web.service.NewsService;
 import myProject.web.util.JspHelp;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/createNews")
 public class CreateNewsServlet extends HttpServlet {
@@ -31,11 +32,10 @@ public class CreateNewsServlet extends HttpServlet {
                 .text(req.getParameter("text"))
                 .authorId(user.getId())
                 .build();
-
         try {
             newsService.create(newsDto);
         }
-        catch (BanException | CensorshipException e){
+        catch (BanException | CensorshipException | SQLException e){
             req.setAttribute("error",e);
         }
         //resp.sendRedirect("/news");

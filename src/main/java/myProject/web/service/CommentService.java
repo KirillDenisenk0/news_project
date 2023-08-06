@@ -6,20 +6,24 @@ import myProject.exeception.CensorshipException;
 import myProject.mapper.CommentsDtoMapper;
 import myProject.validator.NewPublicationValidationResult;
 import myProject.validator.NewPublicationValidator;
+import myProject.web.dao.CommentsDao;
 import myProject.web.dao.UserDao;
 import myProject.web.model.Comments;
 import myProject.web.model.User;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class CommentService {
     private static final CommentService INSTANCE = new CommentService();
     private final UserDao userDao = UserDao.getInstance();
+
+    private final CommentsDao commentsDao = CommentsDao.getInstance();
     private final CommentsDtoMapper commentsDtoMapper = CommentsDtoMapper.getInstance();
     private final NewPublicationValidator newPublicationValidator = NewPublicationValidator.getInstance();
 
-    public Comments create(CommentsDto commentsDto){
+    public Comments create(CommentsDto commentsDto) throws SQLException {
         Optional<User> optionalUser = userDao.findById(commentsDto.getAuthorId());
         if(!checkUser(optionalUser)){
             throw new BanException("Ваш аккаунт заблокирован. Вы не можете публиковать новости оставлять комментарии ");
